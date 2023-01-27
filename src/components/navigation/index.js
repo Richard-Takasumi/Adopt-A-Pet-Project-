@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getPetTypes } from '../../api/petfinder';
 import Logo from '../../assets/logo.svg';
 import Search from '../search';
+import { Outlet } from 'react-router-dom';
+import {NavLink} from 'react-router-dom'
 
 const Navigation = () => {
   const [petTypes, setPetTypes] = useState([]);
@@ -24,29 +26,36 @@ const Navigation = () => {
       <ul className="nav-links">
         <li key="all">
           {/* This link should have an activeClassName and exact prop */}
-          <a
-            href="/"
+          <NavLink
+            to="/"
             className="nav-link"
+            style={({isActive}) => 
+              isActive ? {background: "#320059"} : undefined
+          }
           >
             All Pets
-          </a>
+          </NavLink>
         </li>
         {petTypes
           ? petTypes.map((type) => (
               <li key={type.name}>
                 {/* These links should have an activeClassName prop */}
-                <a
-                  href={`/${type._links.self.href.split('/').pop()}`}
+                <NavLink
+                  to={`/${type._links.self.href.split('/').pop()}`}
                   key={type.name}
                   className="nav-link"
+                  style={({isActive}) => 
+                    isActive ? {background: "#320059"} : undefined
+                  }
                 >
                   {type.name}s
-                </a>{' '}
+                </NavLink>{' '}
               </li>
             ))
           : 'Loading...'}
       </ul>
     </nav>
+
   );
 };
 
